@@ -1,16 +1,36 @@
 body {
-    height: 100vh;
-    background-color: #f0f0f0;
+  height: 100vh;
+  background-color: #f0f0f0;
 }
 
 .card {
-    width: 100px;
-    height: 100px;
-    aspect-ratio: 1/1;
-    background-color: black;
-    border-radius: 10px;
-}
+  height: 100px;
+  aspect-ratio: 1/1;
+  background-color: transparent;
+  border-radius: 10px;
+  border: none;
 
-.is-flipped {
-    background-color: red;
+  &__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 300ms ease-in-out;
+  }
+
+  &__face {
+    position: absolute;
+    inset: 0;
+    background-color: blue;
+    backface-visibility: hidden;
+
+    &--back {
+      background-color: green;
+      transform: rotateY(180deg);
+    }
+  }
+  &.is-flipped .card__inner {
+     transform: rotateY(180deg);
+
+  }
 }
