@@ -1,6 +1,7 @@
 import "./styles/style.scss";
 import { renderHome } from "./pages/home";
-import { renderSettings } from "./pages/settings";
+import { renderSettings, initSettings } from "./pages/settings";
+import type { GameSettings } from "./types/types";
 
 const APP = document.getElementById("app") as HTMLElement;
 
@@ -17,6 +18,11 @@ function showHome(): void {
 
 function showSettings(): void {
   APP.innerHTML = renderSettings();
+  initSettings(startGame);
+}
+
+function startGame(settings: GameSettings): void {
+  console.log("Game started with settings:", settings);
 }
 
 init();
