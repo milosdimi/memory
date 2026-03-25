@@ -1,0 +1,84 @@
+@use '../variables' as *;
+@use 'sass:color';
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: $code-vibes-bg;
+  position: relative;
+  overflow: hidden;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 1;
+  }
+
+  &__subtitle {
+    color: #aaaaaa;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    align-self: flex-start;
+  }
+
+  &__title {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: $foods-card;
+    color: #1a1a1a;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    border: none;
+    transition: transform 200ms ease, background-color 200ms ease;
+
+    &:hover {
+      transform: scale(1.05);
+      background-color: color.adjust($foods-card, $lightness: -10%);
+    }
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0);
+    }
+
+    &-arrow {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__controller {
+    position: absolute;
+    bottom: -3rem;
+    left: -3rem;
+    animation: float 3s ease-in-out infinite;
+    transform: rotate(-15deg);
+  }
+
+  &__controller-img {
+    width: 320px;
+    opacity: 0.15;
+  }
+}
+
+@keyframes float {
+  0%   { transform: rotate(-15deg) translateY(0); }
+  50%  { transform: rotate(-15deg) translateY(-15px); }
+  100% { transform: rotate(-15deg) translateY(0); }
+}
