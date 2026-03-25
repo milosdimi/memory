@@ -1,16 +1,10 @@
 import "./styles/style.scss";
+import { renderHome } from "./pages/home";
+
+const APP = document.getElementById("app") as HTMLElement;
+
+function init(): void {
+  APP.innerHTML = renderHome();
+}
 
 init();
-
-function init() {
-  const fieldRef = document.getElementById("field") as HTMLElement;
-  if (fieldRef) {
-    fieldRef.addEventListener("click", e => {
-       const card = (e.target as HTMLElement).closest(".card") as HTMLButtonElement;
-         if (card) {
-            card.classList.toggle("is-flipped");
-         }
-
-    });
-  }
-}
