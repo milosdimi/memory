@@ -17,13 +17,21 @@
     align-items: center;
     gap: 1.5rem;
     z-index: 1;
+    padding: 0 1.5rem;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   &__subtitle {
     color: #aaaaaa;
     font-size: 1rem;
     letter-spacing: 0.05em;
-    align-self: flex-start;
   }
 
   &__title {
@@ -31,6 +39,14 @@
     font-size: 3.5rem;
     font-weight: 700;
     text-align: center;
+
+    @media (max-width: $bp-tablet) {
+      font-size: 2.75rem;
+    }
+
+    @media (max-width: $bp-mobile) {
+      font-size: 2.25rem;
+    }
   }
 
   &__btn {
@@ -47,9 +63,12 @@
     border: none;
     transition: transform 200ms ease, background-color 200ms ease;
 
+    box-shadow: 0 0 12px rgba($foods-card, 0.5), 0 0 28px rgba($foods-card, 0.2);
+
     &:hover {
       transform: scale(1.05);
       background-color: color.adjust($foods-card, $lightness: -10%);
+      box-shadow: 0 0 18px rgba($foods-card, 0.7), 0 0 40px rgba($foods-card, 0.35);
     }
 
     &-icon {
@@ -69,15 +88,19 @@
 
   &__controller {
     position: absolute;
-    bottom: -3rem;
-    left: -3rem;
+    bottom: 0rem;
+    left: -1rem;
     animation: float 3s ease-in-out infinite;
     transform: rotate(-15deg);
   }
 
   &__controller-img {
-    width: 320px;
-    opacity: 0.15;
+    width: 370px;
+    filter: drop-shadow(0 0 12px rgba($foods-card, 0.6)) drop-shadow(0 0 30px rgba($foods-card, 0.25));
+
+    @media (max-width: $bp-mobile) {
+      width: 200px;
+    }
   }
 }
 

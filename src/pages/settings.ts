@@ -18,11 +18,12 @@ const THEME_LABELS: Record<Theme, string> = {
 export function renderSettings(): string {
   return `
     <section class="settings">
-      <header class="settings__header">
-        <h2 class="settings__title">Settings</h2>
-      </header>
-
       <div class="settings__layout">
+
+        <div class="settings__left">
+          <header class="settings__header">
+            <h2 class="settings__title">Settings</h2>
+          </header>
 
         <form class="settings__form" id="settings-form">
 
@@ -34,7 +35,7 @@ export function renderSettings(): string {
             <ul class="settings__options">
               <li>
                 <label class="settings__option">
-                  <input type="radio" name="theme" value="code-vibes" checked>
+                  <input type="radio" name="theme" value="code-vibes">
                   Code vibes theme
                 </label>
               </li>
@@ -67,7 +68,7 @@ export function renderSettings(): string {
             <ul class="settings__options">
               <li>
                 <label class="settings__option">
-                  <input type="radio" name="player" value="blue" checked>
+                  <input type="radio" name="player" value="blue">
                   Blue
                 </label>
               </li>
@@ -88,7 +89,7 @@ export function renderSettings(): string {
             <ul class="settings__options">
               <li>
                 <label class="settings__option">
-                  <input type="radio" name="size" value="16" checked>
+                  <input type="radio" name="size" value="16">
                   16 cards
                 </label>
               </li>
@@ -108,6 +109,7 @@ export function renderSettings(): string {
           </fieldset>
 
         </form>
+        </div>
 
         <div class="settings__preview">
           <div class="settings__preview-img">
@@ -116,14 +118,14 @@ export function renderSettings(): string {
 
           <div class="settings__summary">
             <div class="settings__summary-info">
-              <span id="summary-theme">Code vibes theme</span>
+              <span id="summary-theme" class="settings__summary-placeholder">Theme</span>
               <span class="settings__summary-divider"></span>
-              <span id="summary-player">Blue</span>
+              <span id="summary-player" class="settings__summary-placeholder">Player</span>
               <span class="settings__summary-divider"></span>
-              <span id="summary-size">16 cards</span>
+              <span id="summary-size" class="settings__summary-placeholder">Board size</span>
             </div>
-            <button class="settings__start-btn" id="btn-start-game">
-              <img src="/assets/icons/stadia_controller_bnt.png" alt="" class="settings__start-icon">
+            <button class="settings__start-btn" id="btn-start-game" disabled data-tooltip="Please select theme, player &amp; board size to start">
+              <img src="/assets/icons/smart_display.png" alt="" class="settings__start-icon">
               Start
             </button>
           </div>
@@ -149,10 +151,25 @@ export function initSettings(onStart: (settings: GameSettings) => void): void {
     const player = data.get("player") as PlayerColor;
     const size = data.get("size") as string;
 
-    previewImg.src = THEME_PREVIEWS[theme];
-    summaryTheme.textContent = THEME_LABELS[theme];
-    summaryPlayer.textContent = player === "blue" ? "Blue" : "Orange";
-    summarySize.textContent = `${size} cards`;
+    if (theme) {
+      previewImg.src = THEME_PREVIEWS[theme];
+      summaryTheme.textContent = THEME_LABELS[theme];
+      summaryTheme.classList.remove("settings__summary-placeholder");
+    }
+    if (player) {
+      summaryPlayer.textContent = player === "blue" ? "Blue" : "Orange";
+      summaryPlayer.classList.remove("settings__summary-placeholder");
+    }
+    if (size) {
+      summarySize.textContent = `${size} cards`;
+      summarySize.classList.remove("settings__summary-placeholder");
+    }
+
+    const allSelected = !!theme && !!player && !!size;
+    btnStart.disabled = !allSelected;
+
+    const summary = document.querySelector(".settings__summary");
+    summary?.classList.toggle("settings__summary--active", allSelected);
   });
 
   btnStart.addEventListener("click", () => {
