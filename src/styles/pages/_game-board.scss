@@ -3,7 +3,7 @@
 
 .game-board {
   min-height: 100vh;
-  background-color: $code-vibes-bg;
+  background-color: #2d2d2d;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -25,21 +25,26 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    background-color: #1e1e1e;
-    border-radius: 0.5rem;
-    padding: 8px 16px;
-    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: transparent;
+    padding: 0;
 
     @media (max-width: $bp-mobile) {
-      padding: 6px 10px;
       gap: 0.5rem;
     }
   }
 
   &__players {
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+    flex-direction: row;
+    gap: 0.5rem;
+    background-color: #3c3c3c;
+    border-radius: 6px;
+    padding: 8px 16px;
+
+    @media (max-width: $bp-mobile) {
+      padding: 6px 10px;
+      gap: 0.35rem;
+    }
   }
 
   &__player {
@@ -51,6 +56,11 @@
     padding: 4px 10px 4px 6px;
     font-size: 0.85rem;
     font-weight: 600;
+
+    @media (max-width: $bp-mobile) {
+      font-size: 0.75rem;
+      padding: 3px 8px 3px 5px;
+    }
   }
 
   &__player-icon {
@@ -58,24 +68,25 @@
     height: 14px;
     flex-shrink: 0;
 
-    &--blue {
-      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(90%);
-    }
-
-    &--orange {
-      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(105%);
-    }
+    &--blue   { filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(90%); }
+    &--orange { filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(105%); }
   }
 
   &__player-name {
-    color: #aaaaaa;
     font-weight: 400;
     font-size: 0.8rem;
+
+    .game-board__player:first-child & { color: $player-blue; }
+    .game-board__player:last-child  & { color: $player-orange; }
+
+    @media (max-width: $bp-mobile) {
+      font-size: 0.7rem;
+    }
   }
 
   &__player-score {
     font-weight: 700;
-    margin-left: 0.25rem;
+    margin-left: 0.2rem;
 
     .game-board__player:first-child & { color: $player-blue; }
     .game-board__player:last-child  & { color: $player-orange; }
@@ -89,47 +100,40 @@
   }
 
   &__current-label {
-    font-size: 0.65rem;
-    color: #666666;
-    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: #aaaaaa;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     font-family: 'Consolas', 'Courier New', monospace;
   }
 
   &__current-icon {
-    width: 32px;
-    height: 20px;
+    width: 40px;
+    height: 26px;
     transition: filter 300ms ease;
 
-    &--blue {
-      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(90%);
-    }
-
-    &--orange {
-      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(105%);
-    }
+    &--blue   { filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(90%); }
+    &--orange { filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(105%); }
   }
 
   &__exit-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #2a2a2a;
-    color: #cccccc;
+    background-color: transparent;
+    color: #ffffff;
     font-size: 0.85rem;
     font-weight: 600;
     font-family: 'Consolas', 'Courier New', monospace;
-    padding: 6px 12px;
-    border-radius: 0.25rem;
-    border: 1px solid #3e3e3e;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 2px solid #4ec9b0;
     cursor: pointer;
-    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease;
     white-space: nowrap;
 
     &:hover {
-      background-color: #3a3a3a;
-      color: #ffffff;
-      border-color: #555555;
+      background-color: rgba(#4ec9b0, 0.12);
     }
 
     @media (max-width: $bp-mobile) {
@@ -141,8 +145,7 @@
   &__exit-icon {
     width: 16px;
     height: 16px;
-    opacity: 0.7;
-    filter: invert(1);
+    filter: brightness(0) invert(1);
     flex-shrink: 0;
   }
 
@@ -152,21 +155,26 @@
     display: grid;
     gap: 1rem;
     justify-content: center;
+    align-content: start;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 
-    &--16 { grid-template-columns: repeat(4, 1fr); }
-    &--24 { grid-template-columns: repeat(6, 1fr); }
-    &--36 { grid-template-columns: repeat(6, 1fr); }
+    &--16 { grid-template-columns: repeat(4, minmax(0, 160px)); }
+    &--24 { grid-template-columns: repeat(6, minmax(0, 130px)); }
+    &--36 { grid-template-columns: repeat(6, minmax(0, 130px)); }
 
     @media (max-width: $bp-tablet) {
       gap: 0.75rem;
-      &--24 { grid-template-columns: repeat(4, 1fr); }
+      &--24 { grid-template-columns: repeat(4, minmax(0, 140px)); }
+      &--36 { grid-template-columns: repeat(4, minmax(0, 140px)); }
     }
 
     @media (max-width: $bp-mobile) {
       gap: 0.5rem;
-      &--16 { grid-template-columns: repeat(4, 1fr); }
-      &--24 { grid-template-columns: repeat(4, 1fr); }
-      &--36 { grid-template-columns: repeat(4, 1fr); }
+      &--16 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      &--24 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      &--36 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
   }
 }
@@ -176,15 +184,16 @@
 .card {
   aspect-ratio: 1;
   cursor: pointer;
-  perspective: 800px;
+  perspective: 1000px;
 
   &__inner {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 400ms ease;
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 0.75rem;
+    will-change: transform;
   }
 
   &--flipped &__inner,
@@ -203,6 +212,7 @@
     inset: 0;
     border-radius: 0.75rem;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
