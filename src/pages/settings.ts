@@ -145,6 +145,21 @@ export function initSettings(onStart: (settings: GameSettings) => void): void {
   const summarySize = document.getElementById("summary-size") as HTMLSpanElement;
   const btnStart = document.getElementById("btn-start-game") as HTMLButtonElement;
 
+  // Hover preview — zeigt Theme-Vorschau beim Hovern
+  const themeLabels = form.querySelectorAll<HTMLLabelElement>('label:has(input[name="theme"])');
+  themeLabels.forEach(label => {
+    const input = label.querySelector('input') as HTMLInputElement;
+
+    label.addEventListener("mouseenter", () => {
+      previewImg.src = THEME_PREVIEWS[input.value as Theme];
+    });
+
+    label.addEventListener("mouseleave", () => {
+      const selected = (form.querySelector('input[name="theme"]:checked') as HTMLInputElement)?.value as Theme;
+      previewImg.src = selected ? THEME_PREVIEWS[selected] : THEME_PREVIEWS["code-vibes"];
+    });
+  });
+
   form.addEventListener("change", () => {
     const data = new FormData(form);
     const theme = data.get("theme") as Theme;

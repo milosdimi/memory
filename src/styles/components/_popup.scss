@@ -1,0 +1,86 @@
+@use '../variables' as *;
+@use 'sass:color';
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(#000000, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fade-in 150ms ease;
+}
+
+.popup {
+  background-color: #1e1e2e;
+  border: 1px solid rgba(#ffffff, 0.12);
+  border-radius: 1rem;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  max-width: 380px;
+  width: 90%;
+  animation: pop-in 200ms ease;
+
+  &__text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  &__btns {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  &__btn {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 200ms ease, background-color 200ms ease;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+
+    &--secondary {
+      background-color: transparent;
+      color: #aaaaaa;
+      border: 1px solid rgba(#ffffff, 0.2);
+
+      &:hover {
+        color: #ffffff;
+        border-color: rgba(#ffffff, 0.4);
+      }
+    }
+
+    &--primary {
+      background-color: $foods-card;
+      color: #1a1a1a;
+      border: none;
+
+      &:hover {
+        background-color: color.adjust($foods-card, $lightness: -10%);
+      }
+    }
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pop-in {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}

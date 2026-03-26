@@ -1,5 +1,6 @@
 import type { Card, GameSettings } from "../types/types";
 import { renderGameBoard } from "../pages/game-board";
+import { showExitPopup } from "../components/popup";
 
 // ── State ─────────────────────────────────────────────────
 
@@ -73,7 +74,7 @@ function attachEvents(): void {
   });
 
   const btnExit = document.getElementById("btn-exit-game") as HTMLButtonElement;
-  btnExit.addEventListener("click", onExitCallback);
+  btnExit.addEventListener("click", () => showExitPopup(onExitCallback));
 }
 
 // ── Flip Logic ────────────────────────────────────────────
@@ -142,9 +143,20 @@ function updateScoreDOM(): void {
   if (s2) s2.textContent = String(settings.playerTwo.score);
 }
 
+const LABEL_COLORS: Record<string, string> = { blue: "#4a7fa5", orange: "#f4a227" };
+
 function updateCurrentPlayerDOM(): void {
-  const icon = document.getElementById("current-player-icon") as HTMLImageElement;
-  if (!icon) return;
+  const wrap = document.getElementById("current-player-icon") as HTMLElement;
+  if (!wrap) return;
   const color = currentPlayer === 1 ? settings.playerOne.color : settings.playerTwo.color;
-  icon.className = `game-board__current-icon game-board__current-icon--${color}`;
+
+  if (settings.theme === "code-vibes") {
+    const fill = LABEL_COLORS[color];
+    wrap.innerHTML = `
+      <svg class="game-board__current-icon" viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" width="40" height="24">
+        <path d="M0 4 Q0 0 4 0 L28 0 L40 12 L28 24 L4 24 Q0 24 0 20 Z" fill="${fill}"/>
+      </svg>`;
+  } else {
+    wrap.innerHTML = `<img src="/assets/icons/chess_pawn.png" alt="" class="game-board__current-icon game-board__current-icon--${color}">`;
+  }
 }
