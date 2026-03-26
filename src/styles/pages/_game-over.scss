@@ -1,0 +1,106 @@
+@use '../variables' as *;
+@use 'sass:color';
+
+.game-over {
+  min-height: 100vh;
+  background-color: $code-vibes-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+
+  &__card {
+    background-color: rgba(#ffffff, 0.06);
+    border: 1px solid rgba(#ffffff, 0.12);
+    border-radius: 1.5rem;
+    padding: 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+
+    @media (max-width: $bp-mobile) {
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+    }
+  }
+
+  &__title {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__scores {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+
+    @media (max-width: $bp-mobile) {
+      gap: 1rem;
+    }
+  }
+
+  &__player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__player-icon {
+    width: 36px;
+    height: 36px;
+
+    &--blue {
+      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(90%);
+    }
+
+    &--orange {
+      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(105%);
+    }
+  }
+
+  &__player-name {
+    color: #aaaaaa;
+    font-size: 0.9rem;
+  }
+
+  &__player-score {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  &__vs {
+    color: #555555;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: $foods-card;
+    color: #1a1a1a;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 200ms ease, background-color 200ms ease;
+
+    &:hover {
+      transform: scale(1.05);
+      background-color: color.adjust($foods-card, $lightness: -10%);
+    }
+  }
+}

@@ -1,0 +1,97 @@
+@use '../variables' as *;
+@use 'sass:color';
+
+.winner {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+
+  // Theme gradients
+  &--code-vibes {
+    background: linear-gradient(135deg, $code-vibes-bg 0%, $code-vibes-card 100%);
+  }
+  &--gaming {
+    background: linear-gradient(135deg, $gaming-card 0%, $gaming-bg 100%);
+  }
+  &--da-projects {
+    background: linear-gradient(135deg, $da-projects-card 0%, darken($da-projects-card, 30%) 100%);
+  }
+  &--foods {
+    background: linear-gradient(135deg, $foods-card 0%, darken($foods-card, 25%) 100%);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  &__icon-wrap {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    filter: drop-shadow(0 0 16px rgba(#ffffff, 0.5));
+    animation: winner-bounce 0.8s ease forwards;
+
+    &--blue {
+      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(1.4)
+              drop-shadow(0 0 16px rgba(#4a7fa5, 0.8));
+    }
+
+    &--orange {
+      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(1.2)
+              drop-shadow(0 0 16px rgba($foods-card, 0.8));
+    }
+  }
+
+  &__title {
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 2px 20px rgba(#000000, 0.3);
+
+    @media (max-width: $bp-mobile) {
+      font-size: 2.25rem;
+    }
+  }
+
+  &__score {
+    color: rgba(#ffffff, 0.75);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  &__btn {
+    margin-top: 1rem;
+    background-color: rgba(#ffffff, 0.15);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    border: 2px solid rgba(#ffffff, 0.4);
+    cursor: pointer;
+    transition: background-color 200ms ease, transform 200ms ease;
+
+    &:hover {
+      background-color: rgba(#ffffff, 0.25);
+      transform: scale(1.05);
+    }
+  }
+}
+
+@keyframes winner-bounce {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
