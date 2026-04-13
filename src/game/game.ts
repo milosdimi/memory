@@ -74,7 +74,7 @@ function attachEvents(): void {
   });
 
   const btnExit = document.getElementById("btn-exit-game") as HTMLButtonElement;
-  btnExit.addEventListener("click", () => showExitPopup(onExitCallback));
+  btnExit.addEventListener("click", () => showExitPopup(onExitCallback, settings.theme));
 }
 
 // ── Flip Logic ────────────────────────────────────────────

@@ -160,9 +160,9 @@
     max-width: 900px;
     margin: 0 auto;
 
-    &--16 { grid-template-columns: repeat(4, minmax(0, 160px)); }
-    &--24 { grid-template-columns: repeat(6, minmax(0, 130px)); }
-    &--36 { grid-template-columns: repeat(6, minmax(0, 130px)); }
+    &--16 { grid-template-columns: repeat(4, minmax(0, 120px)); }
+    &--24 { grid-template-columns: repeat(6, minmax(0, 100px)); }
+    &--36 { grid-template-columns: repeat(6, minmax(0, 100px)); }
 
     @media (max-width: $bp-tablet) {
       gap: 0.75rem;
@@ -179,7 +179,38 @@
   }
 }
 
+// ── Gaming Theme ─────────────────────────────────────────
+
+.game-board--gaming {
+  background-color: #3e5f6e;
+
+  .game-board__header {
+    background-color: transparent;
+  }
+
+  .game-board__players {
+    background-color: #5a7d8e;
+  }
+
+  .game-board__player {
+    background-color: #4a6d7c;
+  }
+
+  .game-board__exit-btn {
+    border-color: $gaming-card;
+    color: #ffffff;
+
+    &:hover {
+      background-color: rgba($gaming-card, 0.15);
+    }
+  }
+}
+
 // ── Card ───────────────────────────────────────────────────
+
+.game-board--gaming .card {
+  aspect-ratio: 129 / 144;
+}
 
 .card {
   aspect-ratio: 1;
@@ -220,9 +251,6 @@
   }
 
   &__back {
-    background-color: rgba(#ffffff, 0.08);
-    border: 2px solid rgba(#ffffff, 0.12);
-
     &-img {
       width: 100%;
       height: 100%;
@@ -231,13 +259,12 @@
   }
 
   &__front {
-    background-color: #ffffff;
     transform: rotateY(180deg);
 
     &-img {
-      width: 80%;
-      height: 80%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 }

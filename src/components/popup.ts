@@ -14,10 +14,11 @@ export function renderPopup(): string {
 }
 
 /** Shows the popup and wires up the buttons */
-export function showExitPopup(onExit: () => void): void {
+export function showExitPopup(onExit: () => void, theme?: string): void {
   document.body.insertAdjacentHTML("beforeend", renderPopup());
 
   const overlay = document.getElementById("exit-popup") as HTMLElement;
+  if (theme) overlay.dataset.theme = theme;
   const btnBack = document.getElementById("btn-back-to-game") as HTMLButtonElement;
   const btnExit = document.getElementById("btn-confirm-exit") as HTMLButtonElement;
 

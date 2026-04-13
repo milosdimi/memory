@@ -73,6 +73,35 @@
       }
     }
   }
+
+  // Gaming Theme — weißer Popup mit pinken Buttons
+  [data-theme="gaming"] & {
+    background-color: #ffffff;
+    border-color: rgba(#000000, 0.08);
+
+    &__text {
+      color: #1a1a1a;
+    }
+
+    &__btn--secondary {
+      color: $gaming-card;
+      border-color: $gaming-card;
+
+      &:hover {
+        background-color: rgba($gaming-card, 0.08);
+        color: $gaming-card;
+      }
+    }
+
+    &__btn--primary {
+      background-color: $gaming-card;
+      color: #ffffff;
+
+      &:hover {
+        background-color: color.adjust($gaming-card, $lightness: -8%);
+      }
+    }
+  }
 }
 
 @keyframes fade-in {
