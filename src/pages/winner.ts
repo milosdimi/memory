@@ -1,5 +1,11 @@
 import type { GameSettings } from "../types/types";
 
+function renderConfetti(): string {
+  return Array.from({ length: 8 }, (_, i) => `
+    <img src="/assets/confetti/confetti-${i + 1}.png" alt="" class="winner__confetti winner__confetti--${i + 1}">
+  `).join("");
+}
+
 /** Renders the winner screen */
 export function renderWinner(settings: GameSettings): string {
   const winner =
@@ -10,32 +16,30 @@ export function renderWinner(settings: GameSettings): string {
       : null;
 
   const isDraw = winner === null;
+  const color = isDraw ? "blue" : winner!.color;
+  const label = isDraw ? "It's a Draw!" : winner!.name;
 
   return `
     <section class="winner winner--${settings.theme}">
+
+      ${renderConfetti()}
+
       <div class="winner__content">
+        <p class="winner__subtitle">The winner is</p>
 
-        <div class="winner__icon-wrap">
-          ${isDraw
-            ? `<img src="/assets/icons/chess_pawn.png" alt="" class="winner__icon winner__icon--blue">
-               <img src="/assets/icons/chess_pawn.png" alt="" class="winner__icon winner__icon--orange">`
-            : `<img src="/assets/icons/chess_pawn.png" alt="" class="winner__icon winner__icon--${winner!.color}">`
-          }
-        </div>
-
-        <h2 class="winner__title">
-          ${isDraw ? "It's a Draw!" : `${winner!.name} Wins!`}
+        <h2 class="winner__title winner__title--${color}">
+          ${label.toUpperCase()}
         </h2>
 
-        <p class="winner__score">
-          ${settings.playerOne.score} — ${settings.playerTwo.score}
-        </p>
+        <img
+          src="/assets/icons/chess_pawn.png"
+          alt=""
+          class="winner__icon winner__icon--${color}"
+        >
 
-        <button class="winner__btn" id="btn-back-home">
-          Back to Start
-        </button>
-
+        <button class="winner__btn" id="btn-back-home">Back to start</button>
       </div>
+
     </section>
   `;
 }

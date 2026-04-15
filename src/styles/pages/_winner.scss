@@ -6,92 +6,138 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  background-color: #2d2d2d;
 
-  // Theme gradients
-  &--code-vibes {
-    background: linear-gradient(135deg, $code-vibes-bg 0%, $code-vibes-card 100%);
+  // ── Confetti ───────────────────────────────────────────
+
+  &__confetti {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    top: -80px;
+    width: 60px;
+    animation: confetti-fall linear forwards;
+
+    &--1  { left:  4%;  width: 55px; animation-duration: 2.2s; animation-delay: 0.0s; }
+    &--2  { left: 14%;  width: 50px; animation-duration: 2.5s; animation-delay: 0.2s; }
+    &--3  { left: 26%;  width: 65px; animation-duration: 2.0s; animation-delay: 0.1s; }
+    &--4  { left: 38%;  width: 50px; animation-duration: 2.7s; animation-delay: 0.3s; }
+    &--5  { left: 52%;  width: 60px; animation-duration: 2.1s; animation-delay: 0.15s;}
+    &--6  { left: 64%;  width: 55px; animation-duration: 2.4s; animation-delay: 0.05s;}
+    &--7  { left: 76%;  width: 65px; animation-duration: 2.3s; animation-delay: 0.25s;}
+    &--8  { left: 88%;  width: 50px; animation-duration: 2.6s; animation-delay: 0.1s; }
+
+    @media (max-width: $bp-mobile) {
+      width: 35px !important;
+    }
   }
-  &--gaming {
-    background: linear-gradient(135deg, $gaming-card 0%, $gaming-bg 100%);
-  }
-  &--da-projects {
-    background: linear-gradient(135deg, $da-projects-card 0%, darken($da-projects-card, 30%) 100%);
-  }
-  &--foods {
-    background: linear-gradient(135deg, $foods-card 0%, darken($foods-card, 25%) 100%);
-  }
+
+  // ── Content ────────────────────────────────────────────
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    z-index: 1;
     text-align: center;
+    padding: 2rem;
   }
 
-  &__icon-wrap {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  &__icon {
-    width: 64px;
-    height: 64px;
-    filter: drop-shadow(0 0 16px rgba(#ffffff, 0.5));
-    animation: winner-bounce 0.8s ease forwards;
-
-    &--blue {
-      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(1.4)
-              drop-shadow(0 0 16px rgba(#4a7fa5, 0.8));
-    }
-
-    &--orange {
-      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(1.2)
-              drop-shadow(0 0 16px rgba($foods-card, 0.8));
-    }
+  &__subtitle {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 400;
   }
 
   &__title {
-    color: #ffffff;
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 700;
-    text-shadow: 0 2px 20px rgba(#000000, 0.3);
+    letter-spacing: 0.03em;
+
+    &--blue   { color: $player-blue; }
+    &--orange { color: $player-orange; }
+  }
+
+  &__icon {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    animation: winner-bounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+    &--blue {
+      filter: invert(47%) sepia(60%) saturate(500%) hue-rotate(180deg) brightness(0.9);
+    }
+
+    &--orange {
+      filter: invert(70%) sepia(80%) saturate(600%) hue-rotate(5deg) brightness(1.05);
+    }
 
     @media (max-width: $bp-mobile) {
-      font-size: 2.25rem;
+      width: 90px;
+      height: 90px;
     }
   }
 
-  &__score {
-    color: rgba(#ffffff, 0.75);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-  }
-
   &__btn {
-    margin-top: 1rem;
-    background-color: rgba(#ffffff, 0.15);
+    margin-top: 0.5rem;
+    background-color: transparent;
     color: #ffffff;
     font-size: 1rem;
-    font-weight: 700;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
-    border: 2px solid rgba(#ffffff, 0.4);
+    font-weight: 600;
+    padding: 0.65rem 2rem;
+    border-radius: 6px;
+    border: 2px solid $code-vibes-card;
     cursor: pointer;
-    transition: background-color 200ms ease, transform 200ms ease;
+    transition: background-color 200ms ease;
 
     &:hover {
-      background-color: rgba(#ffffff, 0.25);
-      transform: scale(1.05);
+      background-color: rgba($code-vibes-card, 0.15);
+    }
+  }
+
+  // ── Theme overrides ────────────────────────────────────
+
+  &--gaming {
+    background-color: #3e5f6e;
+
+    .winner__btn {
+      border-color: $gaming-card;
+      &:hover { background-color: rgba($gaming-card, 0.15); }
+    }
+  }
+
+  &--da-projects {
+    background-color: #2e8fa3;
+
+    .winner__btn {
+      border-color: #ffffff;
+      &:hover { background-color: rgba(#ffffff, 0.15); }
+    }
+  }
+
+  &--foods {
+    background-color: $foods-card;
+
+    .winner__subtitle { color: rgba(#ffffff, 0.85); }
+
+    .winner__btn {
+      border-color: #ffffff;
+      &:hover { background-color: rgba(#ffffff, 0.15); }
     }
   }
 }
 
+@keyframes confetti-fall {
+  0%   { top: -80px;  opacity: 1;   transform: rotate(0deg)   translateX(0); }
+  60%  { opacity: 1; }
+  100% { top: 30vh;   opacity: 0;   transform: rotate(360deg) translateX(30px); }
+}
+
 @keyframes winner-bounce {
-  0%   { transform: scale(0.5); opacity: 0; }
-  70%  { transform: scale(1.2); opacity: 1; }
+  0%   { transform: scale(0.3); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
   100% { transform: scale(1); }
 }
