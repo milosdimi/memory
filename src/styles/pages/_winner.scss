@@ -20,14 +20,23 @@
     width: 60px;
     animation: confetti-fall linear forwards;
 
-    &--1  { left:  4%;  width: 55px; animation-duration: 2.2s; animation-delay: 0.0s; }
-    &--2  { left: 14%;  width: 50px; animation-duration: 2.5s; animation-delay: 0.2s; }
-    &--3  { left: 26%;  width: 65px; animation-duration: 2.0s; animation-delay: 0.1s; }
-    &--4  { left: 38%;  width: 50px; animation-duration: 2.7s; animation-delay: 0.3s; }
-    &--5  { left: 52%;  width: 60px; animation-duration: 2.1s; animation-delay: 0.15s;}
-    &--6  { left: 64%;  width: 55px; animation-duration: 2.4s; animation-delay: 0.05s;}
-    &--7  { left: 76%;  width: 65px; animation-duration: 2.3s; animation-delay: 0.25s;}
-    &--8  { left: 88%;  width: 50px; animation-duration: 2.6s; animation-delay: 0.1s; }
+    &--1  { left:  2%;  width: 55px; animation-duration: 2.2s; animation-delay: 0.0s;  }
+    &--2  { left: 11%;  width: 50px; animation-duration: 2.5s; animation-delay: 0.2s;  }
+    &--3  { left: 21%;  width: 65px; animation-duration: 2.0s; animation-delay: 0.1s;  }
+    &--4  { left: 32%;  width: 50px; animation-duration: 2.7s; animation-delay: 0.3s;  }
+    &--5  { left: 43%;  width: 60px; animation-duration: 2.1s; animation-delay: 0.15s; }
+    &--6  { left: 55%;  width: 55px; animation-duration: 2.4s; animation-delay: 0.05s; }
+    &--7  { left: 66%;  width: 65px; animation-duration: 2.3s; animation-delay: 0.25s; }
+    &--8  { left: 77%;  width: 50px; animation-duration: 2.6s; animation-delay: 0.1s;  }
+
+    &--b1 { left:  7%;  width: 45px; animation-duration: 2.3s; animation-delay: 0.4s;  }
+    &--b2 { left: 16%;  width: 60px; animation-duration: 2.1s; animation-delay: 0.5s;  }
+    &--b3 { left: 27%;  width: 50px; animation-duration: 2.6s; animation-delay: 0.35s; }
+    &--b4 { left: 38%;  width: 55px; animation-duration: 2.2s; animation-delay: 0.6s;  }
+    &--b5 { left: 49%;  width: 45px; animation-duration: 2.8s; animation-delay: 0.45s; }
+    &--b6 { left: 61%;  width: 60px; animation-duration: 2.0s; animation-delay: 0.55s; }
+    &--b7 { left: 71%;  width: 50px; animation-duration: 2.4s; animation-delay: 0.3s;  }
+    &--b8 { left: 84%;  width: 55px; animation-duration: 2.2s; animation-delay: 0.5s;  }
 
     @media (max-width: $bp-mobile) {
       width: 35px !important;
@@ -44,6 +53,8 @@
     z-index: 1;
     text-align: center;
     padding: 2rem;
+    max-width: 1100px;
+    width: 100%;
   }
 
   &__subtitle {
@@ -62,8 +73,8 @@
   }
 
   &__icon {
-    width: 140px;
-    height: 140px;
+    width: 220px;
+    height: 220px;
     object-fit: contain;
     animation: winner-bounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 
@@ -76,25 +87,44 @@
     }
 
     @media (max-width: $bp-mobile) {
-      width: 90px;
-      height: 90px;
+      width: 140px;
+      height: 140px;
+    }
+  }
+
+  &__btns {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+
+    @media (max-width: $bp-mobile) {
+      flex-direction: column;
+      width: 100%;
     }
   }
 
   &__btn {
-    margin-top: 0.5rem;
-    background-color: transparent;
-    color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
     padding: 0.65rem 2rem;
     border-radius: 6px;
     border: 2px solid $code-vibes-card;
     cursor: pointer;
-    transition: background-color 200ms ease;
+    transition: background-color 200ms ease, transform 200ms ease;
 
-    &:hover {
-      background-color: rgba($code-vibes-card, 0.15);
+    &:hover { transform: scale(1.04); }
+
+    &--secondary {
+      background-color: transparent;
+      color: #ffffff;
+      &:hover { background-color: rgba($code-vibes-card, 0.15); }
+    }
+
+    &--primary {
+      background-color: $code-vibes-card;
+      color: #1a1a1a;
+      border-color: $code-vibes-card;
+      &:hover { background-color: rgba($code-vibes-card, 0.85); }
     }
   }
 
@@ -105,7 +135,8 @@
 
     .winner__btn {
       border-color: $gaming-card;
-      &:hover { background-color: rgba($gaming-card, 0.15); }
+      &--secondary:hover { background-color: rgba($gaming-card, 0.15); }
+      &--primary { background-color: $gaming-card; color: #ffffff; }
     }
   }
 
@@ -114,7 +145,8 @@
 
     .winner__btn {
       border-color: #ffffff;
-      &:hover { background-color: rgba(#ffffff, 0.15); }
+      &--secondary:hover { background-color: rgba(#ffffff, 0.15); }
+      &--primary { background-color: #ffffff; color: #2e8fa3; }
     }
   }
 
@@ -125,7 +157,8 @@
 
     .winner__btn {
       border-color: #ffffff;
-      &:hover { background-color: rgba(#ffffff, 0.15); }
+      &--secondary:hover { background-color: rgba(#ffffff, 0.15); }
+      &--primary { background-color: #ffffff; color: $foods-card; }
     }
   }
 }

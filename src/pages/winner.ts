@@ -1,8 +1,12 @@
 import type { GameSettings } from "../types/types";
 
 function renderConfetti(): string {
-  return Array.from({ length: 8 }, (_, i) => `
-    <img src="/assets/confetti/confetti-${i + 1}.png" alt="" class="winner__confetti winner__confetti--${i + 1}">
+  const items = [
+    ...Array.from({ length: 8 }, (_, i) => `winner__confetti--${i + 1}`),
+    ...Array.from({ length: 8 }, (_, i) => `winner__confetti--${i + 1} winner__confetti--b${i + 1}`),
+  ];
+  return items.map((cls, i) => `
+    <img src="/assets/confetti/confetti-${(i % 8) + 1}.png" alt="" class="winner__confetti ${cls}">
   `).join("");
 }
 
@@ -18,6 +22,9 @@ export function renderWinner(settings: GameSettings): string {
   const isDraw = winner === null;
   const color = isDraw ? "blue" : winner!.color;
   const label = isDraw ? "It's a Draw!" : winner!.name;
+  const iconSrc = settings.theme === "gaming"
+    ? "/assets/icons/pockal.png"
+    : "/assets/icons/winner-player.png";
 
   return `
     <section class="winner winner--${settings.theme}">
@@ -32,12 +39,15 @@ export function renderWinner(settings: GameSettings): string {
         </h2>
 
         <img
-          src="/assets/icons/chess_pawn.png"
+          src="${iconSrc}"
           alt=""
           class="winner__icon winner__icon--${color}"
         >
 
-        <button class="winner__btn" id="btn-back-home">Back to start</button>
+        <div class="winner__btns">
+          <button class="winner__btn winner__btn--secondary" id="btn-back-home">Back to start</button>
+          <button class="winner__btn winner__btn--primary" id="btn-play-again">Play again</button>
+        </div>
       </div>
 
     </section>

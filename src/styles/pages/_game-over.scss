@@ -21,10 +21,16 @@
     text-shadow:
       3px 3px 0 color.adjust($code-vibes-card, $lightness: -15%),
       6px 6px 0 color.adjust($code-vibes-card, $lightness: -28%),
-      9px 9px 0 color.adjust($code-vibes-card, $lightness: -38%);
+      9px 9px 0 color.adjust($code-vibes-card, $lightness: -38%),
+      -7px 0px 8px rgba(#4DD5BC, 0.5);
   }
 
   // ── Final Score ───────────────────────────────────────
+
+  &__title {
+    max-width: 1100px;
+    width: 100%;
+  }
 
   &__final {
     display: flex;
@@ -89,8 +95,10 @@
     .game-over__title {
       color: $gaming-card;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.07em;
       text-shadow: none;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
     }
 
     .game-over__badges {
@@ -122,7 +130,9 @@
     .game-over__title {
       color: #e8513a;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0;
+      font-family: $font-da-projects;
+      font-weight: 800;
       text-shadow:
         3px 3px 0 color.adjust(#e8513a, $lightness: -20%),
         6px 6px 0 color.adjust(#e8513a, $lightness: -35%);
@@ -159,8 +169,9 @@
     .game-over__title {
       color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 300;
+      letter-spacing: 0;
+      font-family: $font-foods;
+      font-weight: 600;
       text-shadow: none;
     }
 

@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+// Gaming — Orbitron auf allen Theme-Screens
+.game-board--gaming,
+.game-over--gaming,
+.winner--gaming {
+  font-family: $font-gaming;
+}
+
+// DA Projects — Figtree auf allen Theme-Screens
+.game-board--da-projects,
+.game-over--da-projects,
+.winner--da-projects {
+  font-family: $font-da-projects;
+}
+
+// Foods — Klee One auf allen Theme-Screens
+.game-board--foods,
+.game-over--foods,
+.winner--foods {
+  font-family: $font-foods;
+}

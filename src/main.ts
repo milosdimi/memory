@@ -36,7 +36,13 @@ function showGameOver(settings: GameSettings): void {
 function showWinner(settings: GameSettings): void {
   APP.innerHTML = renderWinner(settings);
   const btnHome = document.getElementById("btn-back-home") as HTMLButtonElement;
+  const btnPlay = document.getElementById("btn-play-again") as HTMLButtonElement;
   btnHome.addEventListener("click", showHome);
+  btnPlay.addEventListener("click", () => startGame({
+    ...settings,
+    playerOne: { ...settings.playerOne, score: 0 },
+    playerTwo: { ...settings.playerTwo, score: 0 },
+  }));
 }
 
 init();
