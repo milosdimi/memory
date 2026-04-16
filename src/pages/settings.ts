@@ -1,4 +1,4 @@
-import type { Theme, BoardSize, PlayerColor, GameSettings } from "../types/types";
+import type { Theme, BoardSize, PlayerColor, GameSettings, Player } from "../types/types";
 
 const THEME_PREVIEWS: Record<Theme, string> = {
   "code-vibes": "/assets/previews/preview-code-vibes.png",
@@ -101,78 +101,72 @@ export function renderSettings(): string {
     </section>`;
 }
 
-/** Initializes settings interactions and calls onStart with selected settings */
-export function initSettings(onStart: (settings: GameSettings) => void): void {
-  const form = document.getElementById("settings-form") as HTMLFormElement;
-  const previewImg = document.getElementById("theme-preview-img") as HTMLImageElement;
-  const summaryTheme = document.getElementById("summary-theme") as HTMLSpanElement;
-  const summaryPlayer = document.getElementById("summary-player") as HTMLSpanElement;
-  const summarySize = document.getElementById("summary-size") as HTMLSpanElement;
-  const btnStart = document.getElementById("btn-start-game") as HTMLButtonElement;
+// ── Init helpers ──────────────────────────────────────────
 
-  // Hover preview — zeigt Theme-Vorschau beim Hovern
-  const themeLabels = form.querySelectorAll<HTMLLabelElement>('label:has(input[name="theme"])');
-  themeLabels.forEach(label => {
-    const input = label.querySelector('input') as HTMLInputElement;
-
+function initHoverPreview(form: HTMLFormElement, previewImg: HTMLImageElement): void {
+  const labels = form.querySelectorAll<HTMLLabelElement>('label:has(input[name="theme"])');
+  labels.forEach(label => {
+    const input = label.querySelector("input") as HTMLInputElement;
     label.addEventListener("mouseenter", () => {
       previewImg.src = THEME_PREVIEWS[input.value as Theme];
     });
-
     label.addEventListener("mouseleave", () => {
-      const selected = (form.querySelector('input[name="theme"]:checked') as HTMLInputElement)?.value as Theme;
-      previewImg.src = selected ? THEME_PREVIEWS[selected] : THEME_PREVIEWS["code-vibes"];
+      const checked = (form.querySelector('input[name="theme"]:checked') as HTMLInputElement)?.value as Theme;
+      previewImg.src = checked ? THEME_PREVIEWS[checked] : THEME_PREVIEWS["code-vibes"];
     });
   });
+}
 
+function updateSummary(theme: Theme, player: PlayerColor, size: string): void {
+  const summaryTheme = document.getElementById("summary-theme") as HTMLSpanElement;
+  const summaryPlayer = document.getElementById("summary-player") as HTMLSpanElement;
+  const summarySize = document.getElementById("summary-size") as HTMLSpanElement;
+  if (theme) { summaryTheme.textContent = THEME_LABELS[theme]; summaryTheme.classList.remove("settings__summary-placeholder"); }
+  if (player) { summaryPlayer.textContent = player === "blue" ? "Blue" : "Orange"; summaryPlayer.classList.remove("settings__summary-placeholder"); }
+  if (size) { summarySize.textContent = `${size} cards`; summarySize.classList.remove("settings__summary-placeholder"); }
+}
+
+function initFormChange(form: HTMLFormElement, previewImg: HTMLImageElement, btnStart: HTMLButtonElement): void {
   form.addEventListener("change", () => {
     const data = new FormData(form);
     const theme = data.get("theme") as Theme;
     const player = data.get("player") as PlayerColor;
     const size = data.get("size") as string;
-
-    if (theme) {
-      previewImg.src = THEME_PREVIEWS[theme];
-      summaryTheme.textContent = THEME_LABELS[theme];
-      summaryTheme.classList.remove("settings__summary-placeholder");
-    }
-    if (player) {
-      summaryPlayer.textContent = player === "blue" ? "Blue" : "Orange";
-      summaryPlayer.classList.remove("settings__summary-placeholder");
-    }
-    if (size) {
-      summarySize.textContent = `${size} cards`;
-      summarySize.classList.remove("settings__summary-placeholder");
-    }
-
+    if (theme) previewImg.src = THEME_PREVIEWS[theme];
+    updateSummary(theme, player, size);
     const allSelected = !!theme && !!player && !!size;
     btnStart.disabled = !allSelected;
-
-    const summary = document.querySelector(".settings__summary");
-    summary?.classList.toggle("settings__summary--active", allSelected);
+    document.querySelector(".settings__summary")?.classList.toggle("settings__summary--active", allSelected);
   });
+}
 
+function buildPlayer(color: PlayerColor, isPlayerOne: boolean): Player {
+  const otherColor: PlayerColor = color === "blue" ? "orange" : "blue";
+  return isPlayerOne
+    ? { name: color === "blue" ? "Blue Player" : "Orange Player", color, score: 0 }
+    : { name: color === "blue" ? "Orange Player" : "Blue Player", color: otherColor, score: 0 };
+}
+
+function initStartButton(form: HTMLFormElement, btnStart: HTMLButtonElement, onStart: (s: GameSettings) => void): void {
   btnStart.addEventListener("click", () => {
     const data = new FormData(form);
-    const theme = data.get("theme") as Theme;
     const playerColor = data.get("player") as PlayerColor;
-    const size = Number(data.get("size")) as BoardSize;
-
     const settings: GameSettings = {
-      playerOne: {
-        name: playerColor === "blue" ? "Blue Player" : "Orange Player",
-        color: playerColor,
-        score: 0,
-      },
-      playerTwo: {
-        name: playerColor === "blue" ? "Orange Player" : "Blue Player",
-        color: playerColor === "blue" ? "orange" : "blue",
-        score: 0,
-      },
-      boardSize: size,
-      theme,
+      playerOne: buildPlayer(playerColor, true),
+      playerTwo: buildPlayer(playerColor, false),
+      boardSize: Number(data.get("size")) as BoardSize,
+      theme: data.get("theme") as Theme,
     };
-
     onStart(settings);
   });
+}
+
+/** Initializes settings interactions and calls onStart with selected settings */
+export function initSettings(onStart: (settings: GameSettings) => void): void {
+  const form = document.getElementById("settings-form") as HTMLFormElement;
+  const previewImg = document.getElementById("theme-preview-img") as HTMLImageElement;
+  const btnStart = document.getElementById("btn-start-game") as HTMLButtonElement;
+  initHoverPreview(form, previewImg);
+  initFormChange(form, previewImg, btnStart);
+  initStartButton(form, btnStart, onStart);
 }
