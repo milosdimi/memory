@@ -1,16 +1,26 @@
-import type { GameSettings } from "../types/types";
+import type { GameSettings, PlayerColor } from "../types/types";
+import { renderArrowSvg, renderPawnIcon } from "../components/templates";
 
-function renderBadgeIcon(color: "blue" | "orange", theme: string): string {
-  if (theme === "code-vibes") {
-    const fill = color === "blue" ? "#4a7fa5" : "#f4a227";
-    return `<svg viewBox="0 0 40 24" width="32" height="20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 4 Q0 0 4 0 L28 0 L40 12 L28 24 L4 24 Q0 24 0 20 Z" fill="${fill}"/>
-    </svg>`;
-  }
-  return `<img src="/assets/icons/chess_pawn.png" class="game-over__badge-icon game-over__badge-icon--${color}" alt="">`;
+/**
+ * Renders the player badge icon — small SVG label for Code Vibes, chess pawn for all other themes.
+ * @param color - Player color
+ * @param theme - Active game theme
+ * @returns HTML string for the badge icon
+ */
+function renderBadgeIcon(color: PlayerColor, theme: string): string {
+  if (theme === "code-vibes") return renderArrowSvg(color, "", 32, 20);
+  return renderPawnIcon(color, "game-over__badge-icon");
 }
 
-function renderPlayerBadge(name: string, color: "blue" | "orange", score: number, theme: string): string {
+/**
+ * Renders a single player score badge with icon, name and score.
+ * @param name - Player display name
+ * @param color - Player color
+ * @param score - Final score
+ * @param theme - Active game theme (determines icon style)
+ * @returns HTML string for one player badge
+ */
+function renderPlayerBadge(name: string, color: PlayerColor, score: number, theme: string): string {
   return `
     <div class="game-over__badge">
       ${renderBadgeIcon(color, theme)}
@@ -19,6 +29,11 @@ function renderPlayerBadge(name: string, color: "blue" | "orange", score: number
     </div>`;
 }
 
+/**
+ * Renders the final score section with both player badges.
+ * @param settings - Current game settings with player scores
+ * @returns HTML string for the final score block
+ */
 function renderFinalScore(settings: GameSettings): string {
   return `
     <div class="game-over__final">
@@ -30,7 +45,11 @@ function renderFinalScore(settings: GameSettings): string {
     </div>`;
 }
 
-/** Renders the game over screen */
+/**
+ * Renders the game over screen with final scores and a button to see the winner.
+ * @param settings - Current game settings with final player scores
+ * @returns HTML string for the game over section
+ */
 export function renderGameOver(settings: GameSettings): string {
   return `
     <section class="game-over game-over--${settings.theme}">

@@ -1,5 +1,6 @@
 import type { Theme, BoardSize, PlayerColor, GameSettings, Player } from "../types/types";
 
+/** Preview image paths per theme */
 const THEME_PREVIEWS: Record<Theme, string> = {
   "code-vibes": "/assets/previews/preview-code-vibes.png",
   "gaming": "/assets/previews/preview-gaming.png",
@@ -7,6 +8,7 @@ const THEME_PREVIEWS: Record<Theme, string> = {
   "foods": "/assets/previews/preview-foods.png",
 };
 
+/** Display labels per theme */
 const THEME_LABELS: Record<Theme, string> = {
   "code-vibes": "Code vibes theme",
   "gaming": "Gaming theme",
@@ -14,6 +16,10 @@ const THEME_LABELS: Record<Theme, string> = {
   "foods": "Foods theme",
 };
 
+/**
+ * Renders the theme selection fieldset with all 4 theme radio options.
+ * @returns HTML string for the theme fieldset
+ */
 function renderThemeFieldset(): string {
   return `
     <fieldset class="settings__group">
@@ -30,6 +36,10 @@ function renderThemeFieldset(): string {
     </fieldset>`;
 }
 
+/**
+ * Renders the player color selection fieldset (Blue / Orange).
+ * @returns HTML string for the player fieldset
+ */
 function renderPlayerFieldset(): string {
   return `
     <fieldset class="settings__group">
@@ -44,6 +54,10 @@ function renderPlayerFieldset(): string {
     </fieldset>`;
 }
 
+/**
+ * Renders the board size selection fieldset (16 / 24 / 36 cards).
+ * @returns HTML string for the size fieldset
+ */
 function renderSizeFieldset(): string {
   return `
     <fieldset class="settings__group">
@@ -59,6 +73,10 @@ function renderSizeFieldset(): string {
     </fieldset>`;
 }
 
+/**
+ * Renders the preview panel with the theme image and selection summary bar.
+ * @returns HTML string for the preview section
+ */
 function renderPreview(): string {
   return `
     <div class="settings__preview">
@@ -81,7 +99,10 @@ function renderPreview(): string {
     </div>`;
 }
 
-/** Renders the settings screen */
+/**
+ * Renders the complete settings screen with form and preview panel.
+ * @returns HTML string for the settings section
+ */
 export function renderSettings(): string {
   return `
     <section class="settings">
@@ -103,6 +124,11 @@ export function renderSettings(): string {
 
 // ── Init helpers ──────────────────────────────────────────
 
+/**
+ * Attaches mouseenter/mouseleave listeners to theme labels to preview the theme image on hover.
+ * @param form - The settings form element
+ * @param previewImg - The theme preview image element
+ */
 function initHoverPreview(form: HTMLFormElement, previewImg: HTMLImageElement): void {
   const labels = form.querySelectorAll<HTMLLabelElement>('label:has(input[name="theme"])');
   labels.forEach(label => {
@@ -117,6 +143,13 @@ function initHoverPreview(form: HTMLFormElement, previewImg: HTMLImageElement): 
   });
 }
 
+/**
+ * Updates the summary bar spans with the currently selected theme, player and board size.
+ * Removes the placeholder style once a value is selected.
+ * @param theme - Selected theme (or null if not yet chosen)
+ * @param player - Selected player color (or null if not yet chosen)
+ * @param size - Selected board size as string (or null if not yet chosen)
+ */
 function updateSummary(theme: Theme, player: PlayerColor, size: string): void {
   const summaryTheme = document.getElementById("summary-theme") as HTMLSpanElement;
   const summaryPlayer = document.getElementById("summary-player") as HTMLSpanElement;
@@ -126,6 +159,12 @@ function updateSummary(theme: Theme, player: PlayerColor, size: string): void {
   if (size) { summarySize.textContent = `${size} cards`; summarySize.classList.remove("settings__summary-placeholder"); }
 }
 
+/**
+ * Attaches a change listener to the form to update the preview image, summary bar and start button state.
+ * @param form - The settings form element
+ * @param previewImg - The theme preview image element
+ * @param btnStart - The start game button element
+ */
 function initFormChange(form: HTMLFormElement, previewImg: HTMLImageElement, btnStart: HTMLButtonElement): void {
   form.addEventListener("change", () => {
     const data = new FormData(form);
@@ -140,6 +179,12 @@ function initFormChange(form: HTMLFormElement, previewImg: HTMLImageElement, btn
   });
 }
 
+/**
+ * Builds a Player object for player one or player two based on the chosen color.
+ * @param color - The color chosen by player one
+ * @param isPlayerOne - True for player one, false for player two
+ * @returns A Player object with name, color and score 0
+ */
 function buildPlayer(color: PlayerColor, isPlayerOne: boolean): Player {
   const otherColor: PlayerColor = color === "blue" ? "orange" : "blue";
   return isPlayerOne
@@ -147,6 +192,12 @@ function buildPlayer(color: PlayerColor, isPlayerOne: boolean): Player {
     : { name: color === "blue" ? "Orange Player" : "Blue Player", color: otherColor, score: 0 };
 }
 
+/**
+ * Attaches a click listener to the start button that builds GameSettings and triggers the game start.
+ * @param form - The settings form element
+ * @param btnStart - The start game button element
+ * @param onStart - Callback to invoke with the assembled GameSettings
+ */
 function initStartButton(form: HTMLFormElement, btnStart: HTMLButtonElement, onStart: (s: GameSettings) => void): void {
   btnStart.addEventListener("click", () => {
     const data = new FormData(form);
@@ -161,7 +212,10 @@ function initStartButton(form: HTMLFormElement, btnStart: HTMLButtonElement, onS
   });
 }
 
-/** Initializes settings interactions and calls onStart with selected settings */
+/**
+ * Initializes all settings interactions and wires up the start callback.
+ * @param onStart - Callback invoked with GameSettings when the user clicks Start
+ */
 export function initSettings(onStart: (settings: GameSettings) => void): void {
   const form = document.getElementById("settings-form") as HTMLFormElement;
   const previewImg = document.getElementById("theme-preview-img") as HTMLImageElement;

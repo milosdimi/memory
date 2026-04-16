@@ -1,6 +1,7 @@
-import type { Card, GameSettings } from "../types/types";
+import type { Card, GameSettings, PlayerColor } from "../types/types";
 import { renderGameBoard } from "../pages/game-board";
 import { showExitPopup } from "../components/popup";
+import { renderArrowSvg, renderPawnIcon } from "../components/templates";
 
 // ── State ─────────────────────────────────────────────────
 
@@ -14,6 +15,12 @@ let onGameOverCallback: (settings: GameSettings) => void;
 
 // ── Init ──────────────────────────────────────────────────
 
+/**
+ * Initializes a new game: sets state, renders the board and attaches all events.
+ * @param gameSettings - Settings chosen by the player (theme, board size, players)
+ * @param onExit - Callback invoked when the player confirms exit
+ * @param onGameOver - Callback invoked with final settings when all cards are matched
+ */
 export function initGame(
   gameSettings: GameSettings,
   onExit: () => void,
@@ -37,6 +44,11 @@ export function initGame(
 
 // ── Card Generation ───────────────────────────────────────
 
+/**
+ * Generates a shuffled array of card pairs based on the board size and theme.
+ * @param s - Current game settings
+ * @returns Shuffled array of Card objects
+ */
 function generateCards(s: GameSettings): Card[] {
   const pairCount = s.boardSize / 2;
   const result: Card[] = [];
@@ -54,6 +66,11 @@ function generateCards(s: GameSettings): Card[] {
   return shuffle(result);
 }
 
+/**
+ * Returns a new array with the elements shuffled using the Fisher-Yates algorithm.
+ * @param arr - Array to shuffle
+ * @returns New shuffled array (original is not mutated)
+ */
 function shuffle<T>(arr: T[]): T[] {
   const shuffled = [...arr];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -65,6 +82,9 @@ function shuffle<T>(arr: T[]): T[] {
 
 // ── Events ────────────────────────────────────────────────
 
+/**
+ * Attaches click events to the card grid and the exit button.
+ */
 function attachEvents(): void {
   const grid = document.getElementById("card-grid") as HTMLElement;
   grid.addEventListener("click", (e) => {
@@ -79,6 +99,11 @@ function attachEvents(): void {
 
 // ── Flip Logic ────────────────────────────────────────────
 
+/**
+ * Handles a card click: flips the card and triggers match check after two cards are flipped.
+ * Ignores clicks when the board is locked or the card is already flipped/matched.
+ * @param cardId - The id of the clicked card
+ */
 function handleCardClick(cardId: number): void {
   if (isLocked) return;
 
@@ -95,40 +120,60 @@ function handleCardClick(cardId: number): void {
   }
 }
 
+/**
+ * Handles a successful card match: marks both cards, updates score and checks for game over.
+ * @param firstCard - First flipped card
+ * @param secondCard - Second flipped card
+ */
+function handleMatch(firstCard: Card, secondCard: Card): void {
+  firstCard.isMatched = true;
+  secondCard.isMatched = true;
+  updateCardDOM(firstCard);
+  updateCardDOM(secondCard);
+
+  if (currentPlayer === 1) settings.playerOne.score++;
+  else settings.playerTwo.score++;
+
+  updateScoreDOM();
+  flippedCards = [];
+  isLocked = false;
+
+  if (cards.every(c => c.isMatched)) {
+    setTimeout(() => onGameOverCallback(settings), 600);
+  }
+}
+
+/**
+ * Handles a failed match: flips both cards back and passes the turn to the other player.
+ * @param firstCard - First flipped card
+ * @param secondCard - Second flipped card
+ */
+function handleMismatch(firstCard: Card, secondCard: Card): void {
+  firstCard.isFlipped = false;
+  secondCard.isFlipped = false;
+  updateCardDOM(firstCard);
+  updateCardDOM(secondCard);
+  flippedCards = [];
+  isLocked = false;
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  updateCurrentPlayerDOM();
+}
+
+/**
+ * Checks whether the two flipped cards form a pair and delegates to the appropriate handler.
+ */
 function checkMatch(): void {
   const [firstCard, secondCard] = flippedCards;
-
-  if (firstCard.pairId === secondCard.pairId) {
-    firstCard.isMatched = true;
-    secondCard.isMatched = true;
-    updateCardDOM(firstCard);
-    updateCardDOM(secondCard);
-
-    if (currentPlayer === 1) settings.playerOne.score++;
-    else settings.playerTwo.score++;
-
-    updateScoreDOM();
-    flippedCards = [];
-    isLocked = false;
-
-    if (cards.every(c => c.isMatched)) {
-      setTimeout(() => onGameOverCallback(settings), 600);
-    }
-  } else {
-    firstCard.isFlipped = false;
-    secondCard.isFlipped = false;
-    updateCardDOM(firstCard);
-    updateCardDOM(secondCard);
-    flippedCards = [];
-    isLocked = false;
-
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
-    updateCurrentPlayerDOM();
-  }
+  if (firstCard.pairId === secondCard.pairId) handleMatch(firstCard, secondCard);
+  else handleMismatch(firstCard, secondCard);
 }
 
 // ── DOM Updates ───────────────────────────────────────────
 
+/**
+ * Syncs the card element's CSS classes with its current flipped and matched state.
+ * @param card - The card whose DOM element should be updated
+ */
 function updateCardDOM(card: Card): void {
   const el = document.querySelector(`[data-id="${card.id}"]`) as HTMLElement;
   if (!el) return;
@@ -136,6 +181,9 @@ function updateCardDOM(card: Card): void {
   el.classList.toggle("card--matched", card.isMatched);
 }
 
+/**
+ * Updates both player score displays in the header.
+ */
 function updateScoreDOM(): void {
   const s1 = document.getElementById("score-p1");
   const s2 = document.getElementById("score-p2");
@@ -143,18 +191,20 @@ function updateScoreDOM(): void {
   if (s2) s2.textContent = String(settings.playerTwo.score);
 }
 
-const LABEL_COLORS: Record<string, string> = { blue: "#4a7fa5", orange: "#f4a227" };
-
-function renderCurrentIcon(color: string, theme: string): string {
-  if (theme === "code-vibes") {
-    const fill = LABEL_COLORS[color];
-    return `<svg class="game-board__current-icon" viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" width="40" height="24">
-      <path d="M0 4 Q0 0 4 0 L28 0 L40 12 L28 24 L4 24 Q0 24 0 20 Z" fill="${fill}"/>
-    </svg>`;
-  }
-  return `<img src="/assets/icons/chess_pawn.png" alt="" class="game-board__current-icon game-board__current-icon--${color}">`;
+/**
+ * Renders the current player icon — arrow SVG for Code Vibes, chess pawn for all other themes.
+ * @param color - Active player's color
+ * @param theme - Active game theme
+ * @returns HTML string for the current player icon
+ */
+function renderCurrentIcon(color: PlayerColor, theme: string): string {
+  if (theme === "code-vibes") return renderArrowSvg(color, "game-board__current-icon");
+  return renderPawnIcon(color, "game-board__current-icon");
 }
 
+/**
+ * Updates the current player icon in the DOM after a turn change.
+ */
 function updateCurrentPlayerDOM(): void {
   const wrap = document.getElementById("current-player-icon") as HTMLElement;
   if (!wrap) return;

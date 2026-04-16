@@ -1,4 +1,7 @@
-/** Renders the home screen */
+/**
+ * Renders the home screen with title, subtitle and play button.
+ * @returns HTML string for the home section
+ */
 export function renderHome(): string {
   return `
     <section class="home">
