@@ -14,126 +14,91 @@ const THEME_LABELS: Record<Theme, string> = {
   "foods": "Foods theme",
 };
 
+function renderThemeFieldset(): string {
+  return `
+    <fieldset class="settings__group">
+      <legend class="settings__group-title">
+        <img src="/assets/icons/palette.png" alt="" class="settings__group-icon">
+        Game themes
+      </legend>
+      <ul class="settings__options">
+        <li><label class="settings__option"><input type="radio" name="theme" value="code-vibes"> Code vibes theme</label></li>
+        <li><label class="settings__option"><input type="radio" name="theme" value="gaming"> Gaming theme</label></li>
+        <li><label class="settings__option"><input type="radio" name="theme" value="da-projects"> DA Projects theme</label></li>
+        <li><label class="settings__option"><input type="radio" name="theme" value="foods"> Foods theme</label></li>
+      </ul>
+    </fieldset>`;
+}
+
+function renderPlayerFieldset(): string {
+  return `
+    <fieldset class="settings__group">
+      <legend class="settings__group-title">
+        <img src="/assets/icons/chess_pawn.png" alt="" class="settings__group-icon">
+        Choose player
+      </legend>
+      <ul class="settings__options">
+        <li><label class="settings__option"><input type="radio" name="player" value="blue"> Blue</label></li>
+        <li><label class="settings__option"><input type="radio" name="player" value="orange"> Orange</label></li>
+      </ul>
+    </fieldset>`;
+}
+
+function renderSizeFieldset(): string {
+  return `
+    <fieldset class="settings__group">
+      <legend class="settings__group-title">
+        <img src="/assets/icons/style.png" alt="" class="settings__group-icon">
+        Board size
+      </legend>
+      <ul class="settings__options">
+        <li><label class="settings__option"><input type="radio" name="size" value="16"> 16 cards</label></li>
+        <li><label class="settings__option"><input type="radio" name="size" value="24"> 24 cards</label></li>
+        <li><label class="settings__option"><input type="radio" name="size" value="36"> 36 cards</label></li>
+      </ul>
+    </fieldset>`;
+}
+
+function renderPreview(): string {
+  return `
+    <div class="settings__preview">
+      <div class="settings__preview-img">
+        <img src="/assets/previews/preview-code-vibes.png" alt="Theme preview" id="theme-preview-img">
+      </div>
+      <div class="settings__summary">
+        <div class="settings__summary-info">
+          <span id="summary-theme" class="settings__summary-placeholder">Theme</span>
+          <span class="settings__summary-divider"></span>
+          <span id="summary-player" class="settings__summary-placeholder">Player</span>
+          <span class="settings__summary-divider"></span>
+          <span id="summary-size" class="settings__summary-placeholder">Board size</span>
+        </div>
+        <button class="settings__start-btn" id="btn-start-game" disabled data-tooltip="Please select theme, player &amp; board size to start">
+          <img src="/assets/icons/smart_display.png" alt="" class="settings__start-icon">
+          Start
+        </button>
+      </div>
+    </div>`;
+}
+
 /** Renders the settings screen */
 export function renderSettings(): string {
   return `
     <section class="settings">
       <div class="settings__layout">
-
         <div class="settings__left">
           <header class="settings__header">
             <h2 class="settings__title">Settings</h2>
           </header>
-
-        <form class="settings__form" id="settings-form">
-
-          <fieldset class="settings__group">
-            <legend class="settings__group-title">
-              <img src="/assets/icons/palette.png" alt="" class="settings__group-icon">
-              Game themes
-            </legend>
-            <ul class="settings__options">
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="theme" value="code-vibes">
-                  Code vibes theme
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="theme" value="gaming">
-                  Gaming theme
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="theme" value="da-projects">
-                  DA Projects theme
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="theme" value="foods">
-                  Foods theme
-                </label>
-              </li>
-            </ul>
-          </fieldset>
-
-          <fieldset class="settings__group">
-            <legend class="settings__group-title">
-              <img src="/assets/icons/chess_pawn.png" alt="" class="settings__group-icon">
-              Choose player
-            </legend>
-            <ul class="settings__options">
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="player" value="blue">
-                  Blue
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="player" value="orange">
-                  Orange
-                </label>
-              </li>
-            </ul>
-          </fieldset>
-
-          <fieldset class="settings__group">
-            <legend class="settings__group-title">
-              <img src="/assets/icons/style.png" alt="" class="settings__group-icon">
-              Board size
-            </legend>
-            <ul class="settings__options">
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="size" value="16">
-                  16 cards
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="size" value="24">
-                  24 cards
-                </label>
-              </li>
-              <li>
-                <label class="settings__option">
-                  <input type="radio" name="size" value="36">
-                  36 cards
-                </label>
-              </li>
-            </ul>
-          </fieldset>
-
-        </form>
+          <form class="settings__form" id="settings-form">
+            ${renderThemeFieldset()}
+            ${renderPlayerFieldset()}
+            ${renderSizeFieldset()}
+          </form>
         </div>
-
-        <div class="settings__preview">
-          <div class="settings__preview-img">
-            <img src="/assets/previews/preview-code-vibes.png" alt="Theme preview" id="theme-preview-img">
-          </div>
-
-          <div class="settings__summary">
-            <div class="settings__summary-info">
-              <span id="summary-theme" class="settings__summary-placeholder">Theme</span>
-              <span class="settings__summary-divider"></span>
-              <span id="summary-player" class="settings__summary-placeholder">Player</span>
-              <span class="settings__summary-divider"></span>
-              <span id="summary-size" class="settings__summary-placeholder">Board size</span>
-            </div>
-            <button class="settings__start-btn" id="btn-start-game" disabled data-tooltip="Please select theme, player &amp; board size to start">
-              <img src="/assets/icons/smart_display.png" alt="" class="settings__start-icon">
-              Start
-            </button>
-          </div>
-        </div>
-
+        ${renderPreview()}
       </div>
-    </section>
-  `;
+    </section>`;
 }
 
 /** Initializes settings interactions and calls onStart with selected settings */
