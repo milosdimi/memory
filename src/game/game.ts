@@ -96,13 +96,13 @@ function handleCardClick(cardId: number): void {
 }
 
 function checkMatch(): void {
-  const [a, b] = flippedCards;
+  const [firstCard, secondCard] = flippedCards;
 
-  if (a.pairId === b.pairId) {
-    a.isMatched = true;
-    b.isMatched = true;
-    updateCardDOM(a);
-    updateCardDOM(b);
+  if (firstCard.pairId === secondCard.pairId) {
+    firstCard.isMatched = true;
+    secondCard.isMatched = true;
+    updateCardDOM(firstCard);
+    updateCardDOM(secondCard);
 
     if (currentPlayer === 1) settings.playerOne.score++;
     else settings.playerTwo.score++;
@@ -115,10 +115,10 @@ function checkMatch(): void {
       setTimeout(() => onGameOverCallback(settings), 600);
     }
   } else {
-    a.isFlipped = false;
-    b.isFlipped = false;
-    updateCardDOM(a);
-    updateCardDOM(b);
+    firstCard.isFlipped = false;
+    secondCard.isFlipped = false;
+    updateCardDOM(firstCard);
+    updateCardDOM(secondCard);
     flippedCards = [];
     isLocked = false;
 
