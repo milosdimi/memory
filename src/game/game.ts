@@ -63,7 +63,7 @@ function generateCards(s: GameSettings): Card[] {
     );
   }
 
-  return shuffle(result);
+  return shuffleCards(result);
 }
 
 /**
@@ -71,7 +71,7 @@ function generateCards(s: GameSettings): Card[] {
  * @param arr - Array to shuffle
  * @returns New shuffled array (original is not mutated)
  */
-function shuffle<T>(arr: T[]): T[] {
+function shuffleCards<T>(arr: T[]): T[] {
   const shuffled = [...arr];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const randomIndex = Math.floor(Math.random() * (i + 1));

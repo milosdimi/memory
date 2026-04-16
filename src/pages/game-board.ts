@@ -80,6 +80,17 @@ function renderHeader(settings: GameSettings): string {
 }
 
 /**
+ * Builds the BEM modifier string for a card based on its current state.
+ * @param card - The card to check
+ * @returns Space-separated modifier class string
+ */
+function getCardModifiers(card: Card): string {
+  const flipped = card.isFlipped ? "card--flipped" : "";
+  const matched = card.isMatched ? "card--matched" : "";
+  return `${flipped} ${matched}`.trim();
+}
+
+/**
  * Renders the card grid with all cards for the current game.
  * @param settings - Current game settings (used for board size and theme)
  * @param cards - Array of card objects to render
@@ -88,7 +99,7 @@ function renderHeader(settings: GameSettings): string {
 function renderCardGrid(settings: GameSettings, cards: Card[]): string {
   return `
     <div class="game-board__grid game-board__grid--${settings.boardSize}" id="card-grid">
-      ${cards.map(card => renderCard(card, settings.theme)).join("")}
+      ${cards.map(card => renderCard(card, settings.theme, getCardModifiers(card))).join("")}
     </div>`;
 }
 
