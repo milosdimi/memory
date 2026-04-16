@@ -1,6 +1,5 @@
 import type { GameSettings, Card } from "../types/types";
-import { renderCard } from "../components/card";
-import { renderArrowSvg, renderPawnIcon } from "../components/templates";
+import { renderCard, renderArrowSvg, renderPawnIcon } from "../components/templates";
 
 /**
  * Returns the player icon — SVG label for Code Vibes, chess pawn for all other themes.
