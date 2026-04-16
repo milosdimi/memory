@@ -1,4 +1,7 @@
-/** Renders the exit confirmation popup */
+/**
+ * Renders the exit confirmation popup HTML.
+ * @returns HTML string for the popup overlay with Back and Exit buttons
+ */
 export function renderPopup(): string {
   return `
     <div class="popup-overlay" id="exit-popup">
@@ -13,7 +16,13 @@ export function renderPopup(): string {
   `;
 }
 
-/** Shows the popup and wires up the buttons */
+/**
+ * Injects the exit popup into the DOM and wires up all button interactions.
+ * Clicking "Back to game", the overlay background, or confirming exit all close the popup.
+ * A `data-theme` attribute is set on the overlay so CSS can apply theme-specific styles.
+ * @param onExit - Callback invoked when the player confirms exit
+ * @param theme - Active game theme (applied as data-theme on the overlay)
+ */
 export function showExitPopup(onExit: () => void, theme?: string): void {
   document.body.insertAdjacentHTML("beforeend", renderPopup());
 

@@ -1,6 +1,12 @@
 import type { Card, Theme } from "../types/types";
 
-/** Renders a single memory card */
+/**
+ * Renders a single memory card with front and back face.
+ * Applies `card--flipped` and `card--matched` modifier classes based on card state.
+ * @param card - The card data object (id, image, flip/match state)
+ * @param theme - Active game theme (determines the back face image)
+ * @returns HTML string for the card element
+ */
 export function renderCard(card: Card, theme: Theme): string {
   const flipped = card.isFlipped ? "card--flipped" : "";
   const matched = card.isMatched ? "card--matched" : "";
