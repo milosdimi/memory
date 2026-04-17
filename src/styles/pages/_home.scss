@@ -9,7 +9,6 @@
   min-height: 100vh;
   background-color: $code-vibes-bg;
   position: relative;
-  overflow: hidden;
 
   &__content {
     display: flex;
@@ -88,10 +87,9 @@
 
   &__controller {
     position: absolute;
-    bottom: 0rem;
-    left: -1rem;
+    bottom: 3rem;
+    left: 0;
     animation: float 3s ease-in-out infinite;
-    transform: rotate(-15deg);
   }
 
   &__controller-img {
@@ -105,7 +103,7 @@
 }
 
 @keyframes float {
-  0%   { transform: rotate(-15deg) translateY(0); }
-  50%  { transform: rotate(-15deg) translateY(-15px); }
-  100% { transform: rotate(-15deg) translateY(0); }
+  0%   { transform: translateX(-1rem) rotate(-15deg) translateY(0); }
+  50%  { transform: translateX(-1rem) rotate(-15deg) translateY(-15px); }
+  100% { transform: translateX(-1rem) rotate(-15deg) translateY(0); }
 }
