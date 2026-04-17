@@ -42,7 +42,7 @@ export function renderPawnIcon(color: PlayerColor, cssClass: string): string {
  */
 export function renderCard(card: Card, theme: Theme, modifiers = ""): string {
   return `
-    <div class="card ${modifiers}" data-id="${card.id}" data-pair-id="${card.pairId}">
+    <li class="card ${modifiers}" data-id="${card.id}" data-pair-id="${card.pairId}">
       <div class="card__inner">
         <div class="card__back">
           <img src="/assets/cards/${theme}/front-card.png" alt="" class="card__back-img">
@@ -51,6 +51,6 @@ export function renderCard(card: Card, theme: Theme, modifiers = ""): string {
           <img src="${card.image}" alt="" class="card__front-img">
         </div>
       </div>
-    </div>
+    </li>
   `;
 }

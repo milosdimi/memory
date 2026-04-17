@@ -97,9 +97,9 @@ function getCardModifiers(card: Card): string {
  */
 function renderCardGrid(settings: GameSettings, cards: Card[]): string {
   return `
-    <div class="game-board__grid game-board__grid--${settings.boardSize}" id="card-grid">
+    <ul class="game-board__grid game-board__grid--${settings.boardSize}" id="card-grid">
       ${cards.map(card => renderCard(card, settings.theme, getCardModifiers(card))).join("")}
-    </div>`;
+    </ul>`;
 }
 
 /**
