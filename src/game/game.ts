@@ -3,6 +3,11 @@ import { renderGameBoard } from "../pages/game-board";
 import { showExitPopup } from "../components/popup";
 import { renderArrowSvg, renderPawnIcon } from "../components/templates";
 
+// ── Constants ─────────────────────────────────────────────
+
+const FLIP_DELAY_MS = 900;
+const GAME_OVER_DELAY_MS = 600;
+
 // ── State ─────────────────────────────────────────────────
 
 let cards: Card[] = [];
@@ -116,7 +121,7 @@ function handleCardClick(cardId: number): void {
 
   if (flippedCards.length === 2) {
     isLocked = true;
-    setTimeout(checkMatch, 900);
+    setTimeout(checkMatch, FLIP_DELAY_MS);
   }
 }
 
@@ -139,7 +144,7 @@ function handleMatch(firstCard: Card, secondCard: Card): void {
   isLocked = false;
 
   if (cards.every(c => c.isMatched)) {
-    setTimeout(() => onGameOverCallback(settings), 600);
+    setTimeout(() => onGameOverCallback(settings), GAME_OVER_DELAY_MS);
   }
 }
 

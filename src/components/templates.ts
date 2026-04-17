@@ -24,7 +24,7 @@ export function renderArrowSvg(color: PlayerColor, cssClass = "", width = 40, he
  * @returns img HTML string
  */
 export function renderPawnIcon(color: PlayerColor, cssClass: string): string {
-  return `<img src="/assets/icons/chess_pawn.png" alt="" class="${cssClass} ${cssClass}--${color}">`;
+  return `<img src="/assets/icons/chess_pawn.png" alt="Player icon" class="${cssClass} ${cssClass}--${color}">`;
 }
 
 /**

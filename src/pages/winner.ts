@@ -41,7 +41,7 @@ function resolveWinner(settings: GameSettings): { color: string; label: string }
  */
 function renderWinnerIcon(theme: string, color: string): string {
   const src = theme === "gaming" ? "/assets/icons/pockal.png" : "/assets/icons/winner-player.png";
-  return `<img src="${src}" alt="" class="winner__icon winner__icon--${color}">`;
+  return `<img src="${src}" alt="Winner trophy" class="winner__icon winner__icon--${color}">`;
 }
 
 /**

@@ -80,9 +80,10 @@ function renderSizeFieldset(): string {
 function renderPreview(): string {
   return `
     <div class="settings__preview">
-      <div class="settings__preview-img">
+      <figure class="settings__preview-img">
         <img src="/assets/previews/preview-code-vibes.png" alt="Theme preview" id="theme-preview-img">
-      </div>
+        <figcaption class="sr-only">Theme preview image</figcaption>
+      </figure>
       <div class="settings__summary">
         <div class="settings__summary-info">
           <span id="summary-theme" class="settings__summary-placeholder">Theme</span>
