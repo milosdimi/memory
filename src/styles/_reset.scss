@@ -27,3 +27,7 @@ img {
   max-width: 100%;
   display: block;
 }
+
+// Player color utility classes for SVG fill
+.arrow-svg--blue   { fill: $player-blue; }
+.arrow-svg--orange { fill: $player-orange; }

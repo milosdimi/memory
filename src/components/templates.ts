@@ -1,24 +1,18 @@
 import type { Card, PlayerColor, Theme } from "../types/types";
 
-/** Hex fill colors per player color */
-export const LABEL_COLORS: Record<PlayerColor, string> = {
-  blue: "#4a7fa5",
-  orange: "#f4a227",
-};
-
 /**
  * Renders the arrow-shaped SVG label used in the Code Vibes theme.
- * @param color - Player color
- * @param cssClass - CSS class(es) to apply to the SVG (omit for no class attribute)
+ * Fill color is controlled via CSS using the `arrow-svg--blue/orange` utility class.
+ * @param color - Player color (applied as a modifier class for CSS fill)
+ * @param cssClass - Additional CSS class(es) to apply to the SVG
  * @param width - SVG width in px (default: 40)
  * @param height - SVG height in px (default: 24)
  * @returns SVG HTML string
  */
 export function renderArrowSvg(color: PlayerColor, cssClass = "", width = 40, height = 24): string {
-  const fill = LABEL_COLORS[color];
-  const classAttr = cssClass ? ` class="${cssClass}"` : "";
-  return `<svg${classAttr} viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <path d="M0 4 Q0 0 4 0 L28 0 L40 12 L28 24 L4 24 Q0 24 0 20 Z" fill="${fill}"/>
+  const classes = ["arrow-svg", `arrow-svg--${color}`, cssClass].filter(Boolean).join(" ");
+  return `<svg class="${classes}" viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+    <path d="M0 4 Q0 0 4 0 L28 0 L40 12 L28 24 L4 24 Q0 24 0 20 Z"/>
   </svg>`;
 }
 
